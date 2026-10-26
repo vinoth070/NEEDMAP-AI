@@ -1,0 +1,10 @@
+{
+  "name": "Remix Remix NEEDMAP AI",
+  "description": "From Scattered Feedback to Evidence-Backed Action. Transform community, student, and product feedback into a verified, transparently prioritized opportunity map and intervention plan.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

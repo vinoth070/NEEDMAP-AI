@@ -1,0 +1,171 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User account profile and role within the NEEDMAP platform.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 120 },
+        "role": { "type": "string", "enum": ["citizen", "worker", "dept_admin", "platform_admin"] },
+        "departmentId": { "type": "string", "maxLength": 64 },
+        "workerProfileId": { "type": "string", "maxLength": 64 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "createdAt": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "name", "email", "role"]
+    },
+    "Complaint": {
+      "title": "Complaint",
+      "description": "Civic or campus issue report with status, department routing, and resolution timeline.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "title": { "type": "string", "maxLength": 200 },
+        "category": { "type": "string", "maxLength": 50 },
+        "description": { "type": "string", "maxLength": 4000 },
+        "urgency": { "type": "string", "enum": ["Low", "Medium", "High", "Critical", "Unknown"] },
+        "priorityTier": { "type": "string", "enum": ["High", "Medium", "Low"] },
+        "status": {
+          "type": "string",
+          "enum": [
+            "submitted",
+            "under_review",
+            "assigned",
+            "accepted",
+            "in_progress",
+            "resolved_awaiting_confirmation",
+            "closed",
+            "rejected",
+            "more_info_required",
+            "escalated",
+            "reopened",
+            "cancelled"
+          ]
+        },
+        "reporterAccountId": { "type": "string", "maxLength": 128 },
+        "isAnonymous": { "type": "boolean" },
+        "reporterDisplayName": { "type": "string", "maxLength": 100 },
+        "assignedDepartmentId": { "type": "string", "maxLength": 64 },
+        "assignedWorkerId": { "type": "string", "maxLength": 64 },
+        "resolutionNotes": { "type": "string", "maxLength": 4000 },
+        "createdAt": { "type": "string", "maxLength": 50 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "title", "category", "description", "status", "reporterAccountId", "assignedDepartmentId"]
+    },
+    "Department": {
+      "title": "Department",
+      "description": "Municipal or campus department responsible for issue resolution.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 100 },
+        "shortCode": { "type": "string", "maxLength": 20 },
+        "description": { "type": "string", "maxLength": 500 },
+        "contactEmail": { "type": "string", "maxLength": 120 },
+        "slaDaysDefault": { "type": "number" }
+      },
+      "required": ["id", "name", "shortCode"]
+    },
+    "WorkerProfile": {
+      "title": "WorkerProfile",
+      "description": "Field worker or technician profile.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "accountId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 100 },
+        "roleTitle": { "type": "string", "maxLength": 100 },
+        "departmentId": { "type": "string", "maxLength": 64 },
+        "availability": { "type": "string", "enum": ["available", "busy", "off_duty"] },
+        "maxConcurrentTasks": { "type": "number" },
+        "completedTasksCount": { "type": "number" }
+      },
+      "required": ["id", "accountId", "name", "departmentId"]
+    },
+    "JobVacancy": {
+      "title": "JobVacancy",
+      "description": "Employment or fellowship opportunity.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "title": { "type": "string", "maxLength": 150 },
+        "departmentId": { "type": "string", "maxLength": 64 },
+        "category": { "type": "string", "maxLength": 50 },
+        "locationText": { "type": "string", "maxLength": 200 },
+        "employmentType": { "type": "string", "enum": ["full_time", "contract", "student_fellowship", "part_time"] },
+        "positionsCount": { "type": "number" },
+        "description": { "type": "string", "maxLength": 3000 },
+        "closingDate": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "enum": ["open", "closed"] }
+      },
+      "required": ["id", "title", "departmentId", "employmentType", "status"]
+    },
+    "JobApplication": {
+      "title": "JobApplication",
+      "description": "Candidate application for an open vacancy.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "vacancyId": { "type": "string", "maxLength": 64 },
+        "applicantAccountId": { "type": "string", "maxLength": 128 },
+        "applicantName": { "type": "string", "maxLength": 100 },
+        "applicantEmail": { "type": "string", "maxLength": 120 },
+        "applicantPhone": { "type": "string", "maxLength": 30 },
+        "experienceSummary": { "type": "string", "maxLength": 2000 },
+        "availabilityNote": { "type": "string", "maxLength": 500 },
+        "status": { "type": "string", "enum": ["submitted", "under_review", "shortlisted", "selected", "not_selected"] },
+        "submittedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "vacancyId", "applicantAccountId", "applicantName", "applicantEmail", "status", "submittedAt"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "In-app alert for complaint status change or assignment.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 150 },
+        "message": { "type": "string", "maxLength": 500 },
+        "type": { "type": "string", "enum": ["info", "success", "warning", "error"] },
+        "read": { "type": "boolean" },
+        "timestamp": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "userId", "title", "message", "type", "read", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User account profiles."
+    },
+    "/complaints/{complaintId}": {
+      "schema": "Complaint",
+      "description": "Unified civic and campus issue records."
+    },
+    "/departments/{departmentId}": {
+      "schema": "Department",
+      "description": "Departments registry."
+    },
+    "/workers/{workerId}": {
+      "schema": "WorkerProfile",
+      "description": "Worker trade profiles."
+    },
+    "/vacancies/{vacancyId}": {
+      "schema": "JobVacancy",
+      "description": "Public vacancies and fellowship openings."
+    },
+    "/jobApplications/{applicationId}": {
+      "schema": "JobApplication",
+      "description": "Applications submitted for job vacancies."
+    },
+    "/notifications/{notificationId}": {
+      "schema": "Notification",
+      "description": "User in-app notifications."
+    }
+  }
+}
